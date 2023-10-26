@@ -1,0 +1,62 @@
+------------------------------------------------------------
+The UUID extension needs to be active for UUIDs
+`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`
+
+PostgreSQL Database is created with the following tables
+
+CREATE TABLE users (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL, -- Remember: this should store hashed passwords, not plain-text.
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE projects (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    owner_id UUID REFERENCES users(id), -- foreign key to the users table
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE tickets (
+    id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    status VARCHAR(255) NOT NULL, -- you might want to use an ENUM type for predefined statuses
+    project_id UUID REFERENCES projects(id), -- foreign key to the projects table
+    creator_user_id UUID REFERENCES users(id), -- foreign key to the users table
+    assigned_user_id UUID REFERENCES users(id), -- foreign key to the users table
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE project_users (
+    project_id UUID REFERENCES projects(id),
+    user_id UUID REFERENCES users(id),
+    PRIMARY KEY (project_id, user_id)
+);
+
+
+
+Create a new user
+CREATE USER new_username WITH PASSWORD 'your_password';
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO new_username;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA public TO new_username;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO new_username;
+
+/------------------------------------------------------------
+
+To list all contents of a table:
+
+SELECT * FROM projects;
+SELECT * FROM tickets;
+SELECT * FROM users;
+
+
+
+
