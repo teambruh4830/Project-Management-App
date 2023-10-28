@@ -1,29 +1,44 @@
-// server/server.js 
-
+import path from 'path';
 import express from 'express';
-import pg from 'pg';
-import dotenv from 'dotenv';
-import setupRoutes from './routes.js';
+import client from './db/client.js';
+import usersRouter from './api/users.js';
+import projectsRouter from './api/projects.js';
+import cors from 'cors';
+import morgan from 'morgan';
+import { fileURLToPath } from 'url';
 
-const { Pool } = pg;
+const server = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const publicPath = path.join(__dirname, 'build');
+const port = process.env.PORT || 4000;
 
-dotenv.config();
+client.connect();
 
-const app = express();
+server.use(express.static(publicPath));
+server.use(cors());
+server.use(express.json());
+server.use(morgan('tiny'));
 
-
-// Database connection
-export const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+server.get('/', (req, res) => {
+    console.log('server is working');
+    res.send({ message: 'server get' });
 });
 
-// Setup routes
-app.use(express.json()); // Enable JSON body parsing middleware
-setupRoutes(app);
+// Register routes directly on the server instance
+server.get('/api', (req, res) => {
+    res.send({message: 'api get'});
+});
 
-export default app;
+server.use('/api/users', usersRouter);
+server.use('/api/projects', projectsRouter);
 
-// server.js
+// Catch-all route for serving index.html
+server.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+let serverInstance = server.listen(port, () => {
+    console.log(`Server is up on port ${port}`);
+});
+
+export { client, server, serverInstance };
