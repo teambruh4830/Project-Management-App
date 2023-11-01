@@ -1,9 +1,9 @@
-import client from '../DB/client.js';
-import initializeDB from './dbInit.js';
+import client from '../DB/client';
+import initializeDB from '../utils/dbInit';
 
-import User from '../DB/User.js';
-import Ticket from '../DB/Ticket.js';
-import Project from '../DB/Project.js';
+import User from '../DB/User';
+import Ticket from '../DB/Ticket';
+import Project from '../DB/Project';
 
 import { 
     getProjectsByUser, getTicketsByProject,

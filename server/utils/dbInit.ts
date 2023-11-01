@@ -1,4 +1,4 @@
-import client from '../DB/client.js';
+import client from '../DB/client';
 
 // Drop tables for server testing DB
 async function dropExistingTables() {
