@@ -1,4 +1,4 @@
-import client from '../DB/client.js';
+import client from '../DB/client';
 
 interface UserProps {
     id: number;

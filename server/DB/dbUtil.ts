@@ -1,11 +1,11 @@
-import client from '../DB/client.js';
+import client from '../DB/client';
 
-import { UserProps } from '../DB/User.js';
-import { TicketProps } from '../DB/Ticket.js';
-import { ProjectProps } from '../DB/Project.js';
-import Project from '../DB/Project.js';
-import User from '../DB/User.js';
-import Ticket from '../DB/Ticket.js';
+import { UserProps } from '../DB/User';
+import { TicketProps } from '../DB/Ticket';
+import { ProjectProps } from '../DB/Project';
+import Project from '../DB/Project';
+import User from '../DB/User';
+import Ticket from '../DB/Ticket';
 
 // Fetch all projects that a user is a member of from the database and return an array of Project instances
 async function getProjectsByUser(user_id: number): Promise<Project[]> {

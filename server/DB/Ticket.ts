@@ -1,4 +1,4 @@
-import client from '../DB/client.js';
+import client from '../DB/client';
 
 interface TicketProps {
     id: number;
