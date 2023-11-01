@@ -1,44 +1,36 @@
-import path from 'path';
 import express from 'express';
-import client from './db/client.js';
-import usersRouter from './api/users.js';
-import projectsRouter from './api/projects.js';
-import cors from 'cors';
-import morgan from 'morgan';
-import { fileURLToPath } from 'url';
+import client from './dist/DB/client.js';
+// //TESTING IMPORTS
+//import initializeDB from './dist/tests/dbInit.js';
+//import User from './dist/DB/User.js';
+//import Project from './dist/DB/Project.js';
+//import Ticket from './dist/DB/Ticket.js';
+//import * as dbUtils from './dist/DB/dbUtil.js';
 
-const server = express();
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const publicPath = path.join(__dirname, 'build');
-const port = process.env.PORT || 4000;
+const app = express();
+const port = 3000;
 
-client.connect();
+// // Initialize the test database
+//await client.connect();
+//await initializeDB();
 
-server.use(express.static(publicPath));
-server.use(cors());
-server.use(express.json());
-server.use(morgan('tiny'));
+// // Get all users from the database
+//const projects = await dbUtils.getAllProjects();
+//const users = await dbUtils.getAllUsers();
+//const tickets = await dbUtils.getAllTickets();
 
-server.get('/', (req, res) => {
-    console.log('server is working');
-    res.send({ message: 'server get' });
+//const user = users[0].id;
+//const relatedProjects = await dbUtils.getProjectsByUser(user);
+
+//console.log('Related projects:');
+//console.log(relatedProjects);
+
+
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
 });
 
-// Register routes directly on the server instance
-server.get('/api', (req, res) => {
-    res.send({message: 'api get'});
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
 });
-
-server.use('/api/users', usersRouter);
-server.use('/api/projects', projectsRouter);
-
-// Catch-all route for serving index.html
-server.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
-
-let serverInstance = server.listen(port, () => {
-    console.log(`Server is up on port ${port}`);
-});
-
-export { client, server, serverInstance };
