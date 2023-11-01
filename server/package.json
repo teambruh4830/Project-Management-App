@@ -9,7 +9,7 @@
     "start-dev": "node server.js",
     "test": "NODE_ENV=test jest --config jest.config.cjs",
     "build": "npx tsc",
-    "postbuild": "node utils/postprocess.cjs"
+    "postbuild": "node postprocess.cjs"
   },
   "dependencies": {
     "cors": "^2.8.5",

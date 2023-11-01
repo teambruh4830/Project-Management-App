@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const DIST_PATH = path.join(__dirname, '../dist');
+const DIST_PATH = path.join(__dirname, '/dist');
 
 function processFilesInDir(directory) {
   const files = fs.readdirSync(directory);

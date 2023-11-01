@@ -1,16 +1,16 @@
-import client from '../DB/client';
-import initializeDB from '../utils/dbInit';
+import client from '../src/DB/client';
+import initializeDB from '../src/utils/dbInit';
 
-import User from '../DB/User';
-import Ticket from '../DB/Ticket';
-import Project from '../DB/Project';
+import User from '../src/DB/User';
+import Ticket from '../src/DB/Ticket';
+import Project from '../src/DB/Project';
 
 import { 
     getProjectsByUser, getTicketsByProject,
     getAllUsers, saveAllUsers, 
     getAllTickets, saveAllTickets, 
     getAllProjects, saveAllProjects,
-} from '../DB/dbUtil';  // Adjust the path to dbUtil if needed
+} from '../src/DB/dbUtil';  // Adjust the path to dbUtil if needed
 
 describe('Database Utilities', () => {
     
