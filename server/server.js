@@ -1,11 +1,11 @@
 import express from 'express';
-import client from './dist/DB/client.js';
+import client from './dist/src/DB/client.js';
 //TESTING IMPORTS
-import initializeDB from './dist/utils/dbInit.js';
-import User from './dist/DB/User.js';
-import Project from './dist/DB/Project.js';
-import Ticket from './dist/DB/Ticket.js';
-import * as dbUtils from './dist/DB/dbUtil.js';
+import initializeDB from './dist/src/utils/dbInit.js';
+import User from './dist/src/DB/User.js';
+import Project from './dist/src/DB/Project.js';
+import Ticket from './dist/src/DB/Ticket.js';
+import * as dbUtils from './dist/src/DB/dbUtil.js';
 
 const app = express();
 const port = 3000;

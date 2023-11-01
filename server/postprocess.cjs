@@ -15,7 +15,7 @@ function processFilesInDir(directory) {
       let content = fs.readFileSync(filepath, 'utf8');
 
       // Append .js to all local imports that don't have it
-      content = content.replace(/import\s+(.*)\s+from\s+['"](\..*?)['"];/g, (match, importList, importPath) => {
+      content = content.replace(/import\s+(.*)\s+from\s+['"](\..*?)(\.js)?['"];/g, (match, importList, importPath) => {
         return `import ${importList} from '${importPath}.js';`;
       });
 
