@@ -28,7 +28,7 @@ const isTest = process.env.NODE_ENV === 'test';
 // Connection details
 const dbConfig = {
   user: 'bruhdb_dev', // replace with your database username
-  host: 'ec2-52-13-3-131.us-west-2.compute.amazonaws.com', // replace with the public IP of your EC2 instance
+  host: 'localhost', // replace with the public IP of your EC2 instance
   database: isTest ? 'bruhdb_testing' : 'bruhdb', // database name
   password: 'bruhdb_dev_pass', // replace with your database password
   port: 5432,
