@@ -29,6 +29,11 @@
 
 
 //New Version
+CREATE DATABASE bruhdb;
+CREATE DATABASE bruhdb_testing;
+CREATE USER bruhdb_dev WITH ENCRYPTED PASSWORD 'bruhdb_dev_pass';
+GRANT ALL PRIVILEGES ON DATABASE bruhdb TO bruhdb_dev;
+GRANT ALL PRIVILEGES ON DATABASE bruhdb_testing TO bruhdb_dev;
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
