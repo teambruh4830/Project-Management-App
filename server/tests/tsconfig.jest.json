@@ -1,0 +1,22 @@
+//tsconfig.jest.json
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "esModuleInterop": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "rootDir": "./",
+    "moduleResolution": "node",
+    "baseUrl": "./", // This sets the base directory for module resolution
+    "paths": {
+      "*": ["*"] // This maps every module name to its location
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}
+
+  //tsconfig.jest.json
+  

@@ -1,29 +1,36 @@
-// server/server.js 
-
 import express from 'express';
-import pg from 'pg';
-import dotenv from 'dotenv';
-import setupRoutes from './routes.js';
-
-const { Pool } = pg;
-
-dotenv.config();
+import client from './dist/src/DB/client.js';
+//TESTING IMPORTS
+import initializeDB from './dist/src/utils/dbInit.js';
+import User from './dist/src/DB/User.js';
+import Project from './dist/src/DB/Project.js';
+import Ticket from './dist/src/DB/Ticket.js';
+import * as dbUtils from './dist/src/DB/dbUtil.js';
 
 const app = express();
+const port = 3000;
+
+// Initialize the test database
+await client.connect();
+await initializeDB();
+
+// Get all users from the database
+const projects = await dbUtils.getAllProjects();
+const users = await dbUtils.getAllUsers();
+const tickets = await dbUtils.getAllTickets();
+
+const user = users[0].id;
+const relatedProjects = await dbUtils.getProjectsByUser(user);
+
+console.log('Related projects:');
+console.log(relatedProjects);
 
 
-// Database connection
-export const pool = new Pool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+
+app.get('/', (req, res) => {
+    res.send('Hello World!');
 });
 
-// Setup routes
-app.use(express.json()); // Enable JSON body parsing middleware
-setupRoutes(app);
-
-export default app;
-
-// server.js
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+});
