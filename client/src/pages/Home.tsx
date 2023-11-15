@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Bruh Project</IonTitle>
+          <IonTitle>Project Management App</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
