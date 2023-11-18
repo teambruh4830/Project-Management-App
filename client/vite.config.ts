@@ -8,9 +8,13 @@ export default defineConfig({
     react(),
     legacy()
   ],
+  server: {
+    // Listen on all network interfaces
+    host: '0.0.0.0'
+  },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/setupTests.ts',
   }
-})
+});
