@@ -16,18 +16,18 @@ describe('Database Utilities', () => {
     
     // Connect to the DB and initialize it before all tests
     beforeAll(async () => {
-        console.log('Begin database testing...');
+        //DEBUG console.log('Begin database testing...');
         await client.connect();
-        console.log('Connected to database.');
+        //DEBUG console.log('Connected to database.');
         await initializeDB();
-        console.log('Initialized database.');
+        //DEBUG console.log('Initialized database.');
     });
 
     // Disconnect from the DB after all tests
     afterAll(async () => {
-        console.log('End database testing.');
+        //DEBUG console.log('End database testing.');
         await client.end();
-        console.log('Disconnected from database.');
+        //DEBUG console.log('Disconnected from database.');
     });
 
     // Clear and populate data before each test
