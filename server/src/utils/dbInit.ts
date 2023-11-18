@@ -76,14 +76,14 @@ async function seedData() {
 
 // Initializes the test database for server tests.
 async function initializeDB() {
-    console.log('Initializing test database...');
+    //DEBUG console.log('Initializing test database...');
     await dropExistingTables();
-    console.log('Dropped existing tables');
+    //DEBUG console.log('Dropped existing tables');
     await createTables();
-    console.log('Created tables');
+    //DEBUG console.log('Created tables');
     await seedData();
-    console.log('Seeded data');
-    console.log('Test database initialized');
+    //DEBUG console.log('Seeded data');
+    //DEBUG console.log('Test database initialized');
 }
 
 export default initializeDB;
