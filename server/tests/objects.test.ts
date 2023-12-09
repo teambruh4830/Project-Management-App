@@ -12,6 +12,7 @@ import {
     getAllProjects, saveAllProjects,
 } from '../src/DB/dbUtil';  // Adjust the path to dbUtil if needed
 
+
 describe('Database Utilities', () => {
     
     // Connect to the DB and initialize it before all tests
