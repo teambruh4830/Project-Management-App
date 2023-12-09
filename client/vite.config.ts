@@ -10,7 +10,8 @@ export default defineConfig({
   ],
   server: {
     // Listen on all network interfaces
-    host: '0.0.0.0'
+    host: '0.0.0.0',
+    https: false,
   },
   test: {
     globals: true,

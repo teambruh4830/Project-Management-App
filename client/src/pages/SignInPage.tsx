@@ -28,8 +28,10 @@ const SignInPage: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const url = isRegistering ? '/users/register' : '/users/signin';
-    
+    const baseUrl = 'http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000';
+    const apiEndpoint = isRegistering ? '/api/users/register' : '/api/users/signin';
+    const url = `${baseUrl}${apiEndpoint}`;
+  
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -38,19 +40,25 @@ const SignInPage: React.FC = () => {
         },
         body: JSON.stringify({ username, password }),
       });
-
+  
       const data = await response.json();
       if (response.ok) {
         alert(data.message);
         // Handle successful sign in/register here
+        // For example, store user ID in local storage or context for session management
+        if (!isRegistering) {
+          // Assuming data.userId is the user's ID
+          localStorage.setItem('userId', data.userId);
+          // Navigate to a different page or update state to indicate user is signed in
+        }
       } else {
-        alert(data);
+        alert('Error: ' + (data.message || 'An error occurred'));
       }
     } catch (error) {
       console.error('Error:', error);
     }
   };
-
+  
   return (
     <IonPage>
       <IonHeader>
