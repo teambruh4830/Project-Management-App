@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
 import {
   IonContent,
   IonHeader,
@@ -14,12 +16,12 @@ import {
   IonLabel,
   IonRouterLink,
 } from "@ionic/react";
-import { useHistory } from "react-router-dom";
 
 const SignInPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isRegistering, setIsRegistering] = useState(false);
+    const history = useHistory();
   
     const handleInputChange = (event: any) => {
       const name = event.target.name;
@@ -50,7 +52,11 @@ const SignInPage: React.FC = () => {
           if (isRegistering) {
             // Additional logic for post-registration (like automatic sign-in) goes here
           } else {
-            // Logic for successful sign-in goes here (like redirect).
+            // TODO Logic for successful sign-in goes here (like redirect) would go here.
+            //redirect to project list page
+            history.push('/projects');
+
+
           }
         } else if (response.status === 409) {
           // User already exists
