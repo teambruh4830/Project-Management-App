@@ -5,7 +5,7 @@
   "main": "start.js",
   "type": "module",
   "scripts": {
-    "start": "node start.js",
+    "start": "NODE_ENV=production node start.js",
     "start-dev": "node start.js",
     "test": "NODE_ENV=test jest --detectOpenHandles --config jest.config.cjs",
     "build": "npx tsc",
