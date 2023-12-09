@@ -44,9 +44,16 @@ describe('Database Utilities', () => {
 
     test('Fetch all tickets from DB', async () => {
         const tickets = await getAllTickets();
-        expect(tickets.length).toBeGreaterThanOrEqual(4);  // We're seeding 4 tickets
+        expect(tickets.length).toBeGreaterThanOrEqual(4);  // Assuming 4 tickets are seeded
         expect(tickets[0]).toBeInstanceOf(Ticket);
+        expect(tickets[0]).toHaveProperty('title');
+        tickets.forEach(ticket => {
+            expect(ticket).toHaveProperty('title'); // Check if each ticket has a title
+            // If description is optional, check if it exists or is null
+            expect(ticket.description === null || typeof ticket.description === 'string').toBe(true);
+        });
     });
+    
 
     test('Fetch all projects from DB', async () => {
         const projects = await getAllProjects();
@@ -89,6 +96,11 @@ describe('Database Utilities', () => {
         const projectTickets = await getTicketsByProject(project.id);
         expect(projectTickets.length).toBeGreaterThanOrEqual(1);
         expect(projectTickets[0]).toBeInstanceOf(Ticket);
+        projectTickets.forEach(ticket => {
+            expect(ticket).toHaveProperty('title'); // Check if each ticket has a title
+            // If description is optional, check if it exists or is null
+            expect(ticket.description === null || typeof ticket.description === 'string').toBe(true);
+        });
     });
 
     /*test('Print the projects associated with a user', async () => {

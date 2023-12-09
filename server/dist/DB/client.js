@@ -8,9 +8,10 @@ const connectionString = isTest
     : process.env.DATABASE_URL || 'postgres://localhost:5432/pms';
 const client = new Client({
     connectionString,
-    ssl: isProduction
-        ? { rejectUnauthorized: false }
-        : undefined,
+    //ssl: isProduction
+    //? { rejectUnauthorized: false }
+    //: undefined,
+    ssl: true
 });
 export default client;
 // import pkg from 'pg';

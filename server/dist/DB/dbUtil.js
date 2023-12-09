@@ -94,12 +94,12 @@ function removeUserFromProjectByUsername(username, projectId) {
 // Create a new ticket in the database
 function createNewTicket(ticketData) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { project_id, created_by, assigned_to, type, priority } = ticketData;
+        const { project_id, created_by, assigned_to, title, description, type, priority } = ticketData;
         const { rows: [newTicketRow] } = yield client.query(`
-        INSERT INTO tickets (project_id, created_by, assigned_to, type, priority, created_at, modified_at)
-        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
+        INSERT INTO tickets (project_id, created_by, assigned_to, title, description, type, priority, created_at, modified_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
         RETURNING *
-    `, [project_id, created_by, assigned_to, type, priority]);
+    `, [project_id, created_by, assigned_to, title, description, type, priority]);
         return new Ticket(newTicketRow);
     });
 }
@@ -131,10 +131,10 @@ function updateTicket(ticketData) {
             // Update the ticket in the database
             const { rows: [updatedTicketRow] } = yield client.query(`
             UPDATE tickets
-            SET project_id = $1, created_by = $2, assigned_to = $3, type = $4, priority = $5, modified_at = $6
-            WHERE id = $7
+            SET project_id = $1, created_by = $2, assigned_to = $3, title = $4, description = $5, type = $6, priority = $7, modified_at = $8
+            WHERE id = $9
             RETURNING *
-        `, [updatedData.project_id, updatedData.created_by, updatedData.assigned_to, updatedData.type, updatedData.priority, updatedData.modified_at, updatedData.id]);
+        `, [updatedData.project_id, updatedData.created_by, updatedData.assigned_to, updatedData.title, updatedData.description, updatedData.type, updatedData.priority, updatedData.modified_at, updatedData.id]);
             return new Ticket(updatedTicketRow);
         }
         catch (error) {
@@ -167,10 +167,10 @@ function getAllUsers() {
 // Fetch all tickets from the database and return an array of Ticket instances
 function getAllTickets() {
     return __awaiter(this, void 0, void 0, function* () {
-        const { rows } = yield client.query('SELECT id, project_id, created_by, assigned_to, type, priority, created_at, modified_at FROM tickets');
-        //console.log("Fetched ticket rows:", rows);
+        const { rows } = yield client.query('SELECT * FROM tickets');
         return rows.map((row) => {
-            if (!row.project_id || !row.created_by) {
+            // Include a check for the new 'title' field as it is mandatory
+            if (!row.project_id || !row.created_by || !row.title) {
                 console.error("Problematic ticket row:", row);
                 throw new Error("Essential properties missing for Ticket object");
             }

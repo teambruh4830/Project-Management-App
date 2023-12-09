@@ -44,6 +44,8 @@ async function createTables(){
             project_id INTEGER NOT NULL REFERENCES projects(id),
             created_by INTEGER NOT NULL REFERENCES users(id),
             assigned_to INTEGER REFERENCES users(id) NULL,
+            title VARCHAR(255) NOT NULL, 
+            description TEXT,            
             type VARCHAR(255) NOT NULL,
             priority INTEGER NOT NULL,
             created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -68,10 +70,17 @@ async function seedData() {
     await client.query('INSERT INTO user_projects (user_id, project_id) VALUES ($1, $2)', [userId, projectId]);
 
     // Tickets for Test Project 1
-    await client.query('INSERT INTO tickets (project_id, created_by, type, priority) VALUES ($1, $2, $3, $4)', [projectId, userId, 'Bug', 1]);
-    await client.query('INSERT INTO tickets (project_id, created_by, type, priority) VALUES ($1, $2, $3, $4)', [projectId, userId, 'Feature', 2]);
-    await client.query('INSERT INTO tickets (project_id, created_by, type, priority) VALUES ($1, $2, $3, $4)', [projectId, userId, 'Improvement', 3]);
-    await client.query('INSERT INTO tickets (project_id, created_by, type, priority) VALUES ($1, $2, $3, $4)', [projectId, userId, 'Bug', 4]);
+    await client.query('INSERT INTO tickets (project_id, created_by, title, description, type, priority) VALUES ($1, $2, $3, $4, $5, $6)', 
+    [projectId, userId, 'Ticket Title 1', 'Description for ticket 1', 'Bug', 1]);
+
+    await client.query('INSERT INTO tickets (project_id, created_by, title, description, type, priority) VALUES ($1, $2, $3, $4, $5, $6)', 
+    [projectId, userId, 'Ticket Title 2', null, 'Feature', 2]);
+
+    await client.query('INSERT INTO tickets (project_id, created_by, title, description, type, priority) VALUES ($1, $2, $3, $4, $5, $6)', 
+    [projectId, userId, 'Ticket Title 3', 'Description for ticket 3', 'Improvement', 3]);
+
+    await client.query('INSERT INTO tickets (project_id, created_by, title, type, priority) VALUES ($1, $2, $3, $4, $5)', 
+    [projectId, userId, 'Ticket Title 4', 'Bug', 4]);
 }
 
 // Initializes the test database for server tests.

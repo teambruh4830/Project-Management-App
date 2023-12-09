@@ -68,6 +68,8 @@ describe('API Endpoints', () => {
             project_id: 1, // Assuming a valid project ID
             created_by: 1, // Assuming a valid user ID
             assigned_to: 1, // Assuming a valid user ID
+            title: 'New Issue', // New field
+            description: 'Description of the new issue', // New field
             type: 'Bug',
             priority: 1
         };
@@ -83,6 +85,8 @@ describe('API Endpoints', () => {
     test('PUT /tickets/:ticketId - Update Ticket', async () => {
         const updatedTicketData = {
             project_id: 1, // Assuming the same project ID
+            title: 'Updated Issue Title', // Updated field
+            description: 'Updated description of the issue', // Updated field
             type: 'Feature',
             priority: 2
             // Other fields can be added as needed

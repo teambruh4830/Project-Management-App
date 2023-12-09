@@ -86,15 +86,16 @@ async function removeUserFromProjectByUsername(username: string, projectId: numb
 
 // Create a new ticket in the database
 async function createNewTicket(ticketData: TicketProps): Promise<Ticket> {
-    const { project_id, created_by, assigned_to, type, priority } = ticketData;
+    const { project_id, created_by, assigned_to, title, description, type, priority } = ticketData;
     const { rows: [newTicketRow] } = await client.query(`
-        INSERT INTO tickets (project_id, created_by, assigned_to, type, priority, created_at, modified_at)
-        VALUES ($1, $2, $3, $4, $5, NOW(), NOW())
+        INSERT INTO tickets (project_id, created_by, assigned_to, title, description, type, priority, created_at, modified_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
         RETURNING *
-    `, [project_id, created_by, assigned_to, type, priority]);
+    `, [project_id, created_by, assigned_to, title, description, type, priority]);
 
     return new Ticket(newTicketRow);
 }
+
 
 // Update an existing project in the database
 async function updateProject(projectData: ProjectProps): Promise<Project> {
@@ -128,10 +129,10 @@ async function updateTicket(ticketData: TicketProps): Promise<Ticket> {
         // Update the ticket in the database
         const { rows: [updatedTicketRow] } = await client.query(`
             UPDATE tickets
-            SET project_id = $1, created_by = $2, assigned_to = $3, type = $4, priority = $5, modified_at = $6
-            WHERE id = $7
+            SET project_id = $1, created_by = $2, assigned_to = $3, title = $4, description = $5, type = $6, priority = $7, modified_at = $8
+            WHERE id = $9
             RETURNING *
-        `, [updatedData.project_id, updatedData.created_by, updatedData.assigned_to, updatedData.type, updatedData.priority, updatedData.modified_at, updatedData.id]);
+        `, [updatedData.project_id, updatedData.created_by, updatedData.assigned_to, updatedData.title, updatedData.description, updatedData.type, updatedData.priority, updatedData.modified_at, updatedData.id]);
 
         return new Ticket(updatedTicketRow);
     } catch (error) {
@@ -167,10 +168,10 @@ async function getAllUsers(): Promise<User[]> {
 
 // Fetch all tickets from the database and return an array of Ticket instances
 async function getAllTickets(): Promise<Ticket[]> {
-    const { rows } = await client.query('SELECT id, project_id, created_by, assigned_to, type, priority, created_at, modified_at FROM tickets');
-    //console.log("Fetched ticket rows:", rows);
+    const { rows } = await client.query('SELECT * FROM tickets');
     return rows.map((row: TicketProps) => {
-        if (!row.project_id || !row.created_by) {
+        // Include a check for the new 'title' field as it is mandatory
+        if (!row.project_id || !row.created_by || !row.title) {
             console.error("Problematic ticket row:", row);
             throw new Error("Essential properties missing for Ticket object");
         }
