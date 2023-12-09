@@ -2,12 +2,12 @@
   "name": "Bruh",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "start.js",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "start-dev": "node server.js",
-    "test": "NODE_ENV=test jest --config jest.config.cjs",
+    "start": "node start.js",
+    "start-dev": "node start.js",
+    "test": "NODE_ENV=test jest --detectOpenHandles --config jest.config.cjs",
     "build": "npx tsc",
     "postbuild": "node postprocess.cjs"
   },
@@ -19,8 +19,9 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.20",
-    "@types/jest": "^29.5.8",
+    "@types/jest": "^29.5.11",
     "@types/pg": "^8.10.7",
+    "@types/supertest": "^2.0.16",
     "jest": "^29.7.0",
     "pg": "^8.11.3",
     "supertest": "^6.3.3",
