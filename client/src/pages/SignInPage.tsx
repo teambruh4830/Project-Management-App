@@ -15,49 +15,57 @@ import {
 } from '@ionic/react';
 
 const SignInPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);
-
-  const handleInputChange = (event: any) => {
-    const name = event.target.name;
-    const value = event.target.value;
-    if (name === 'username') setUsername(value);
-    if (name === 'password') setPassword(value);
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    const baseUrl = 'http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000';
-    const apiEndpoint = isRegistering ? '/api/users/register' : '/api/users/signin';
-    const url = `${baseUrl}${apiEndpoint}`;
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [isRegistering, setIsRegistering] = useState(false);
   
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+    const handleInputChange = (event: any) => {
+      const name = event.target.name;
+      const value = event.target.value;
+      if (name === 'username') setUsername(value);
+      if (name === 'password') setPassword(value);
+    };
   
-      const data = await response.json();
-      if (response.ok) {
-        alert(data.message);
-        // Handle successful sign in/register here
-        // For example, store user ID in local storage or context for session management
-        if (!isRegistering) {
-          // Assuming data.userId is the user's ID
-          localStorage.setItem('userId', data.userId);
-          // Navigate to a different page or update state to indicate user is signed in
+    const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
+      const baseUrl = 'http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000';
+      const apiEndpoint = isRegistering ? '/api/users/register' : '/api/users/signin';
+      const url = `${baseUrl}${apiEndpoint}`;
+  
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+          alert(data.message);
+  
+          if (isRegistering) {
+            // Additional logic for post-registration (like automatic sign-in) goes here
+          } else {
+            // Logic for successful sign-in goes here (like redirect).
+          }
+        } else if (response.status === 409) {
+          // User already exists
+          alert('Error: User already exists');
+        } else if (response.status === 401) {
+          // Invalid username or password
+          alert('Error: Invalid username or password');
+        } else {
+          // Other errors
+          const errorText = await response.text();
+          alert('Error: ' + errorText);
         }
-      } else {
-        alert('Error: ' + (data.message || 'An error occurred'));
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while processing your request.');
       }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
+    };
   
   return (
     <IonPage>
