@@ -82,14 +82,14 @@ function seedData() {
 // Initializes the test database for server tests.
 function initializeDB() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log('Initializing test database...');
+        //DEBUG console.log('Initializing test database...');
         yield dropExistingTables();
-        console.log('Dropped existing tables');
+        //DEBUG console.log('Dropped existing tables');
         yield createTables();
-        console.log('Created tables');
+        //DEBUG console.log('Created tables');
         yield seedData();
-        console.log('Seeded data');
-        console.log('Test database initialized');
+        //DEBUG console.log('Seeded data');
+        //DEBUG console.log('Test database initialized');
     });
 }
 export default initializeDB;
