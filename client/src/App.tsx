@@ -1,8 +1,9 @@
-import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
-import { IonReactRouter } from "@ionic/react-router";
-import Home from "./pages/Home/Home";
-import SignInPage from "./pages/SignInPage";
+import { Redirect, Route } from 'react-router-dom';
+import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import Home from './pages/Home';
+import SignInPage from './pages/SignInPage';
+import ProjectListPage from './pages/ProjectList';
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -34,6 +35,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/signin">
           <SignInPage />
+        </Route>
+        <Route exact path="/projects">
+          <ProjectListPage />
         </Route>
         <Route exact path="/">
           <Redirect to="/signin" />
