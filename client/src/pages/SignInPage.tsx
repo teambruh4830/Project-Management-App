@@ -35,7 +35,7 @@ const SignInPage: React.FC = () => {
       const baseUrl = 'http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000';
       const apiEndpoint = isRegistering ? '/api/users/register' : '/api/users/signin';
       const url = `${baseUrl}${apiEndpoint}`;
-  
+    
       try {
         const response = await fetch(url, {
           method: 'POST',
@@ -44,28 +44,25 @@ const SignInPage: React.FC = () => {
           },
           body: JSON.stringify({ username, password }),
         });
-  
+    
         if (response.ok) {
           const data = await response.json();
           alert(data.message);
-  
+    
+          // Save the username in localStorage
+          localStorage.setItem('username', username);
+    
           if (isRegistering) {
-            // Additional logic for post-registration (like automatic sign-in) goes here
+            // Additional logic for post-registration
           } else {
-            // TODO Logic for successful sign-in goes here (like redirect) would go here.
-            //redirect to project list page
+            // Logic for successful sign-in
             history.push('/projects');
-
-
           }
         } else if (response.status === 409) {
-          // User already exists
           alert('Error: User already exists');
         } else if (response.status === 401) {
-          // Invalid username or password
           alert('Error: Invalid username or password');
         } else {
-          // Other errors
           const errorText = await response.text();
           alert('Error: ' + errorText);
         }
