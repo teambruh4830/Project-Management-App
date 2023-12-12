@@ -7,12 +7,15 @@ import Project from '../DB/Project';
 import User from '../DB/User';
 import Ticket from '../DB/Ticket';
 
+// Functions for interacting with the database within the API calls
 
+// Check if a user exists in the database with the given username
 async function userExists(username: string): Promise<boolean> {
     const result = await client.query('SELECT id FROM users WHERE username = $1', [username]);
     return result.rows.length > 0;
 }
 
+// Create a new user in the database
 async function createUser(username: string, password: string): Promise<User> {
     if (await userExists(username)) {
         throw new Error('User already exists');
@@ -24,6 +27,7 @@ async function createUser(username: string, password: string): Promise<User> {
     return new User(newUserProps);
 }
 
+// Verify a user in the database, given a username and password
 async function verifyUser(username: string, password: string): Promise<User | null> {
     const result = await client.query('SELECT * FROM users WHERE username = $1', [username]);
     if (result.rows.length === 0) {
@@ -48,6 +52,7 @@ async function getTicketsByProject(project_id: number): Promise<Ticket[]> {
     return rows.map((row: TicketProps) => new Ticket(row));
 }
 
+// Create a new project in the database
 async function createNewProject(title: string, description: string): Promise<Project> {
     const { rows: [newProjectRow] } = await client.query(`
         INSERT INTO projects (title, description)
@@ -64,6 +69,7 @@ async function createNewProject(title: string, description: string): Promise<Pro
     });
 }
 
+// Add a user to a project by username
 async function addUserToProjectByUsername(username: string, projectId: number): Promise<void> {
     const userRes = await client.query('SELECT id FROM users WHERE username = $1', [username]);
     if (userRes.rows.length === 0) {
@@ -73,6 +79,7 @@ async function addUserToProjectByUsername(username: string, projectId: number): 
     await client.query('INSERT INTO user_projects (user_id, project_id) VALUES ($1, $2)', [userId, projectId]);
 }
 
+// Remove a user from a project by username
 async function removeUserFromProjectByUsername(username: string, projectId: number): Promise<void> {
     const userRes = await client.query('SELECT id FROM users WHERE username = $1', [username]);
     if (userRes.rows.length === 0) {
@@ -81,8 +88,6 @@ async function removeUserFromProjectByUsername(username: string, projectId: numb
     const userId = userRes.rows[0].id;
     await client.query('DELETE FROM user_projects WHERE user_id = $1 AND project_id = $2', [userId, projectId]);
 }
-
-
 
 // Create a new ticket in the database
 async function createNewTicket(ticketData: TicketProps): Promise<Ticket> {
@@ -95,7 +100,6 @@ async function createNewTicket(ticketData: TicketProps): Promise<Ticket> {
 
     return new Ticket(newTicketRow);
 }
-
 
 // Update an existing project in the database
 async function updateProject(projectData: ProjectProps): Promise<Project> {
@@ -110,6 +114,7 @@ async function updateProject(projectData: ProjectProps): Promise<Project> {
     return new Project(updatedProjectRow);
 }
 
+// Update an existing ticket in the database
 async function updateTicket(ticketData: TicketProps): Promise<Ticket> {
     try {
         // Fetch the existing ticket data
@@ -140,19 +145,17 @@ async function updateTicket(ticketData: TicketProps): Promise<Ticket> {
     }
 }
 
+// Delete a project from the database
 async function deleteProject(projectId: number): Promise<void> {
     await client.query('DELETE FROM tickets WHERE project_id = $1', [projectId]);
     await client.query('DELETE FROM user_projects WHERE project_id = $1', [projectId]);
     await client.query('DELETE FROM projects WHERE id = $1', [projectId]);
 }
 
+// Delete a ticket from the database
 async function deleteTicket(ticketId: number): Promise<void> {
     await client.query('DELETE FROM tickets WHERE id = $1', [ticketId]);
 }
-
-
-
-
 
 
 
