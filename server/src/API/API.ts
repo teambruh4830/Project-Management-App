@@ -1,9 +1,19 @@
 import express from 'express';
-import User from '../DB/User'; 
-import Project from '../DB/Project'; 
-import Ticket from '../DB/Ticket'; 
-import { createUser, verifyUser, getProjectsByUser, createNewProject, getTicketsByProject, createNewTicket, updateProject, updateTicket, addUserToProjectByUsername, removeUserFromProjectByUsername, deleteProject,
-    deleteTicket } from '../DB/dbUtil'; 
+import { createUser,
+    verifyUser,
+    getProjectsByUser,
+    createNewProject,
+    getTicketsByProject,
+    createNewTicket,
+    updateProject,
+    updateTicket,
+    addUserToProjectByUsername,
+    removeUserFromProjectByUsername,
+    deleteProject,
+    deleteTicket 
+} from '../DB/dbUtil'; 
+
+
 const router = express.Router();
 
 router.get('/', async (req, res) => {
@@ -80,6 +90,7 @@ router.post('/projects', async (req, res) => {
     }
 });
 
+// Add a user to a project
 router.post('/projects/:projectId/users/:username', async (req, res) => {
     try {
         const { projectId, username } = req.params;
@@ -90,6 +101,7 @@ router.post('/projects/:projectId/users/:username', async (req, res) => {
     }
 });
 
+// Remove a user from a project
 router.delete('/projects/:projectId/users/:username', async (req, res) => {
     try {
         const { projectId, username } = req.params;
@@ -100,6 +112,7 @@ router.delete('/projects/:projectId/users/:username', async (req, res) => {
     }
 });
 
+// Delete a project by projectID
 router.delete('/projects/:projectId', async (req, res) => {
     try {
         const { projectId } = req.params;
@@ -110,10 +123,7 @@ router.delete('/projects/:projectId', async (req, res) => {
     }
 });
 
-
-
-
-// Edit a project
+// Edit a project by projectID
 router.put('/projects/:projectId', async (req, res) => {
     try {
         const { projectId } = req.params;
@@ -142,7 +152,7 @@ router.get('/projects/:projectId/tickets', async (req, res) => {
 });
 
 
-// Create a new ticket
+// Create a new ticket 
 router.post('/tickets', async (req, res) => {
     try {
         const ticketData = req.body; // Assuming all necessary ticket data is provided
@@ -153,7 +163,7 @@ router.post('/tickets', async (req, res) => {
     }
 });
 
-// Edit a ticket
+// Edit a ticket by ticketID
 router.put('/tickets/:ticketId', async (req, res) => {
     try {
         const { ticketId } = req.params;
@@ -165,6 +175,7 @@ router.put('/tickets/:ticketId', async (req, res) => {
     }
 });
 
+// Delete a ticket by ticketID
 router.delete('/tickets/:ticketId', async (req, res) => {
     try {
         const { ticketId } = req.params;
