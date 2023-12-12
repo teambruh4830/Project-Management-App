@@ -10,7 +10,7 @@ import {
     getAllUsers, saveAllUsers, 
     getAllTickets, saveAllTickets, 
     getAllProjects, saveAllProjects,
-} from '../src/DB/dbUtil';  // Adjust the path to dbUtil if needed
+} from '../src/DB/dbUtil';  
 
 
 describe('Database Utilities', () => {

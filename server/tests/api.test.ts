@@ -1,7 +1,7 @@
 import request from 'supertest';
-import app from '../server'; // Adjust this import according to your project structure
+import app from '../server'; 
 import client from '../src/DB/client';
-import initializeDB from '../src/utils/dbInit'; // Import your initialization function
+import initializeDB from '../src/utils/dbInit'; 
 
 describe('API Endpoints', () => {
     
