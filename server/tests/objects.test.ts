@@ -103,44 +103,4 @@ describe('Database Utilities', () => {
         });
     });
 
-    /*test('Print the projects associated with a user', async () => {
-        const users = await getAllUsers();
-        const user = users[0];
-        const userProjects = await getProjectsByUser(user.id);
-        console.log("Projects associated with user:", userProjects);
-
-        const user2 = users[1];
-        const user2Projects = await getProjectsByUser(user2.id);
-        console.log("Projects associated with user2:", user2Projects);
-    });
-
-    test('Print the tickets in users projects', async () => {
-        const users = await getAllUsers();
-        const user = users[0];
-        const userProjects = await getProjectsByUser(user.id);
-
-        for (let project of userProjects) {
-            const projectTickets = await getTicketsByProject(project.id);
-            console.log("Tickets in project:", projectTickets);
-        }
-
-        const user2 = users[1];
-        const user2Projects = await getProjectsByUser(user2.id);
-
-        for (let project of user2Projects) {
-            const projectTickets = await getTicketsByProject(project.id);
-            console.log("Tickets in project:", projectTickets);
-        }
-    });*/
-
-
-    /*test('PrintAllTables', async () => {
-        const projects = await getAllProjects();
-        const users = await getAllUsers();
-        const tickets = await getAllTickets();
-        console.log("Projects:", projects);
-        console.log("Users:", users);
-        console.log("Tickets:", tickets);
-    });*/
-
 });

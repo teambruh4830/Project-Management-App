@@ -4,11 +4,14 @@ import client from '../src/DB/client';
 import initializeDB from '../src/utils/dbInit'; // Import your initialization function
 
 describe('API Endpoints', () => {
+    
+    // Connect to the test DB, drop all existing data, and seed the test data before running any tests
     beforeAll(async () => {
         await client.connect();
         await initializeDB();
     });
 
+    // Disconnect from the test DB after all tests are done
     afterAll(async () => {
         await client.end();
     });
@@ -65,11 +68,11 @@ describe('API Endpoints', () => {
     // Test creating a new ticket
     test('POST /tickets - Create New Ticket', async () => {
         const newTicket = {
-            project_id: 1, // Assuming a valid project ID
-            created_by: 1, // Assuming a valid user ID
-            assigned_to: 1, // Assuming a valid user ID
-            title: 'New Issue', // New field
-            description: 'Description of the new issue', // New field
+            project_id: 1, 
+            created_by: 1, 
+            assigned_to: 1, 
+            title: 'New Issue', 
+            description: 'Description of the new issue', 
             type: 'Bug',
             priority: 1
         };
@@ -106,7 +109,7 @@ describe('API Endpoints', () => {
             title: 'Updated Project Title',
             description: 'Updated project description'
         };
-        const projectId = 1; // Replace with a valid project ID
+        const projectId = 1; 
         const response = await request(app)
             .put(`/api/projects/${projectId}`)
             .send(updatedProjectData);
@@ -129,6 +132,5 @@ describe('API Endpoints', () => {
         expect(response.statusCode).toBe(200);
         expect(response.text).toBe('Ticket deleted successfully');
     });
-    
-    // Add more tests as needed for other scenarios and endpoints
+
 });
