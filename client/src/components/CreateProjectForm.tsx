@@ -21,7 +21,6 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ onProjectCreation
                 },
                 body: JSON.stringify({ title, description }),
             });
-
             const projectResult = await projectResponse.json();
             if (projectResponse.ok) {
                 alert('Project created successfully: ' + projectResult.projectId);
