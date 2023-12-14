@@ -4,25 +4,30 @@ import { TicketProps } from '../models/Ticket';
 // Define the props interface
 interface AddTicketFormProps {
   onTicketAddition: () => Promise<void>; // Function to handle adding a new ticket
-  projectId: string | null;
+  project_id: string | null;
+  created_by: string | null;
+  assigned_by: null;
 }
 
-const AddTicketForm: React.FC<AddTicketFormProps> = ({ onTicketAddition, projectId }) => {
+const AddTicketForm: React.FC<AddTicketFormProps> = ({ onTicketAddition, created_by, project_id, assigned_by }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [type, setType] = useState('');
   const [priority, setPriority] = useState('');
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    let created_at = new Date();
+    let modified_at = new Date();
     e.preventDefault();
     // Validate form inputs here if necessary
     try{
-        const ticketResponse = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/projects/${projectId}/tickets/3`, {
+        const ticketResponse = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/tickets/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ title, description, type, priority }),
+            body: JSON.stringify({project_id, created_by, assigned_by, title, description, type, priority, created_at, modified_at }),
             
         });
     const ticketResult = await ticketResponse.json();

@@ -21,6 +21,7 @@ import {
 import Ticket, { TicketProps } from '../models/Ticket'; // Adjust the import path as needed
 import AddTicketForm from '../components/AddTicketForm';
 
+
 const ProjectBoardPage: React.FC = () => {
   const { projectId } = useParams<{ projectId: string }>();
   const [tickets, setTickets] = useState<TicketProps[]>([]);
@@ -39,6 +40,7 @@ const ProjectBoardPage: React.FC = () => {
 
   const fetchTickets = async () => {
     try {
+
       const response = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/projects/${projectId}/tickets`);
       if (response.ok) {
         const ticketsData = await response.json();
@@ -78,7 +80,7 @@ const ProjectBoardPage: React.FC = () => {
         </IonToolbar>
         <IonModal isOpen={showModal}>
           {/* Pass username to CreateProjectForm */}
-          <AddTicketForm onTicketAddition={handleTicketCreation} projectId={projectId} />
+          <AddTicketForm onTicketAddition={handleTicketCreation} project_id={projectId} created_by={localStorage.getItem('userId')} assigned_by={null} />
           <IonButton onClick={() => setShowModal(false)}>Close</IonButton>
         </IonModal>
       </IonHeader>
