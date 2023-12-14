@@ -48,6 +48,9 @@ const SignInPage: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           alert(data.message);
+
+          // Save the userId in localStorage
+          localStorage.setItem('userId', data.userId);
     
           // Save the username in localStorage
           localStorage.setItem('username', username);
