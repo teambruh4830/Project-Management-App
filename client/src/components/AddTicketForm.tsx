@@ -17,8 +17,7 @@ const AddTicketForm: React.FC<AddTicketFormProps> = ({ onTicketAddition, project
     e.preventDefault();
     // Validate form inputs here if necessary
     try{
-        console.log(title, description, type, priority);
-        const ticketResponse = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/projects/${projectId}/tickets/`, {
+        const ticketResponse = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/projects/${projectId}/tickets/3`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -50,7 +49,6 @@ const AddTicketForm: React.FC<AddTicketFormProps> = ({ onTicketAddition, project
         value={title}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
         placeholder="Title"
-        required
       />
       <textarea
         value={description}
@@ -62,14 +60,12 @@ const AddTicketForm: React.FC<AddTicketFormProps> = ({ onTicketAddition, project
         value={type}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setType(e.target.value)}
         placeholder="Type"
-        required
       />
       <input
         type="number"
         value={priority}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPriority(e.target.value)}
         placeholder="Priority"
-        required
       />
       <button type="submit">Add Ticket</button>
     </form>
