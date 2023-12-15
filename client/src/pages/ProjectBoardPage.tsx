@@ -68,7 +68,34 @@ const ProjectBoardPage: React.FC = () => {
     return acc;
   }, {} as Record<string, TicketProps[]>);
 
-
+  const handleDeleteTicket = async () => {
+    if (!selectedTicket) {
+      // No ticket selected, handle accordingly
+      return;
+    }
+  
+    try {
+      const response = await fetch(`http://ec2-52-13-3-131.us-west-2.compute.amazonaws.com:3000/api/tickets/${selectedTicket._id}`, {
+        method: 'DELETE',
+        // Add necessary headers or authentication tokens if required
+      });
+  
+      if (response.ok) {
+        // Ticket deleted successfully, perform necessary actions
+        // For example, close the modal and update the ticket list
+        setShowTicketModal(false);
+        await fetchTickets(); // Update ticket list after deletion
+      } else {
+        // Handle error scenarios, display an error message
+        console.error('Failed to delete ticket');
+        // Display an alert or update state to indicate deletion failure
+      }
+    } catch (error) {
+      console.error('Error deleting ticket:', error);
+      // Handle other potential errors (network issues, etc.)
+      // Display an alert or update state to indicate deletion failure
+    }
+  };
 
   return (
     <IonPage>
@@ -111,6 +138,7 @@ const ProjectBoardPage: React.FC = () => {
             <IonHeader>
               <IonToolbar>
                 <IonTitle>Ticket Details</IonTitle>
+                <IonButton onClick={handleDeleteTicket}>Delete Ticket</IonButton>
               </IonToolbar>
             </IonHeader>
             <div style={{ padding: '15px' }}>
